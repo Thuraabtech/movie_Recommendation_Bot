@@ -2,7 +2,7 @@ import csv
 import re
 import random
 
-# Read the dataset
+
 movies = []
 with open('/Users/soha/Desktop/chatbot/movies.csv', encoding='utf-8') as file:
     reader = csv.reader(file)
@@ -33,7 +33,6 @@ horror_keywords = ['horror', 'scary', 'creepy']
 telugu_keywords = ['telugu', 'tollywood', 'andhra']
 thriller_keywords = ['thriller', 'suspenseful', 'mystery']
 romance_keywords = ['romance', 'romantic', 'love']
-# Function to calculate the probability of a message being a certain type of request
 def message_probability(user_message, recognised_words, single_response=False, required_words=[]):
     message_certainty = 0
     has_required_words = True
@@ -41,7 +40,6 @@ def message_probability(user_message, recognised_words, single_response=False, r
     for word in user_message:
         if word in recognised_words:
             message_certainty += 1
-    # Calculates the percent of recognised words in a user message
     percentage = float(message_certainty) / float(len(recognised_words))
 
     # Checks that the required words are in the string
@@ -69,7 +67,6 @@ def get_response(user_input):
     'romance': message_probability(split_message, romance_keywords)
     }
 
-    # Sort the request types by probability in descending order
     sorted_requests = sorted(request_types.items(), key=lambda x: x[1], reverse=True)
 
     # Get the response for the most likely request type
@@ -99,9 +96,7 @@ def get_response(user_input):
             elif request_type == 'romance':
                 temp=random.choice(Romance_list)
                 return 'I would recommend watching {} \nDESCRIPTION: {}'.format(temp,get_response(temp))
-        # Check if user is asking for a movie description
     for movie in movies:
-        #for word in split_message:
             if movie['name'].lower().startswith(user_input.lower()):
                 return R_DESCRIPTION.format(movie['name'], movie['year'], movie['description'])
     for movie in movies:
@@ -111,7 +106,6 @@ def get_response(user_input):
     # If no other match is found, return unknown response
     return R_UNKNOWN
 
-# Main conversation loop
 print(R_GREETING)
 while True:
     user_input = input('> ')
